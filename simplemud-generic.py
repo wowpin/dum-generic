@@ -1,6 +1,13 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
+"""A modern MU* engine is a hobby project extending on an amazing 
+work by Mark Frimston - be sure to check out https://github.com/Frimkron/mud-pi
+
+All development on top of Mark's project were completed by Bartek Radwanski - 
+bartek.radwanski@gmail.com
+"""
+
 from cmsg import cmsg
 
 from functions import getFreeKey
@@ -47,22 +54,22 @@ rooms = {
 # Load NPCs
 npcs = {}
 
-# Declare NPCs master (template) tuple
+# Declare NPCs master (template) dictionary
 npcsTemplate = {}
 
-# Declare env tuple
+# Declare env dictionary containing all environmental actors
 env = {}
 
-# Declare fights tuple
+# Declare fights dictionary containing information about ongoing fights
 fights = {}
 
-# Declare corpses tuple
+# Declare corpses dictionary
 corpses = {}
 
-# Declare items tuple
+# Declare items dictionary
 itemsDB = {}
 
-# Declare itemsInWorld tuple
+# Declare itemsInWorld dictionary
 itemsInWorld = {}
 
 # Declare number of seconds to elapse between State Saves
@@ -76,9 +83,9 @@ lastStateSave = int(time.time())
 # Database connection details
 DBhost = 'localhost'
 DBport = 3306
-DBuser = 'dumdb'
-DBpasswd = 'M1cr0s'
-DBdatabase = 'dum_devworld01'
+DBuser = '<database_user>'
+DBpasswd = '<database_password>'
+DBdatabase = '<database_name>'
 
 print("[info] Connecting to database")
 cnxn = pymysql.connect(host=DBhost, port=DBport, user=DBuser, passwd=DBpasswd, db=DBdatabase)
@@ -147,7 +154,7 @@ npcsTemplate = deepcopy(npcs)
 	# for y in npcs[x]:
 		# print (y,':',npcs[x][y])
 
-# Fetch tbl_ENV and populate env[]
+# Fetch tbl_ENV and populate env{}
 cursor.execute("SELECT * FROM tbl_ENV")
 dbResponse = cursor.fetchall()
 
@@ -168,7 +175,7 @@ for en in dbResponse:
 		# for y in env[x]:
 			# print (y,':',env[x][y])
 
-# Fetch tbl_Items and populate itemsDB[]
+# Fetch tbl_Items and populate itemsDB{}
 cursor.execute("SELECT * FROM tbl_Items")
 dbResponse = cursor.fetchall()
 
@@ -1085,8 +1092,8 @@ while True:
                 itemPickedUp = False
 
         elif command.lower() == 'testme':
-            mud.send_message(id, cmsg("<b><u><f53><b112>HELLO BITHES!<r>"))
-            mud.send_message(id, cmsg("<b><u><f12><b75>HELLO <b53>AGAIN <b84>BITHES!"))
+            mud.send_message(id, cmsg("<b><u><f53><b112>HELLO!<r>"))
+            mud.send_message(id, cmsg("<b><u><f12><b75>HELLO <b53>AGAIN <b84>TEST!"))
 
         else:
         # some other, unrecognised command
