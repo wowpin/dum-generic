@@ -4,6 +4,8 @@ A modern MU* engine
 ## What is it?
 DUM is a hobby project attempting to develop a feature-rich Python codebase for a MUD style game. It is building on brillinat work by Mark Frimston, be sure to check out his Mud-Pi project (https://github.com/Frimkron/mud-pi).
 
+> Note: A **dev server** running `dum-generic` has been deployed! Feel free to get in touch via email (bartek.radwanski@gmail.com) if you'd like to try it out!
+
 ## Features
 Check out http://dumengine.wikidot.com/dum-v0-1-feature-summary for a longer description of currently implemented features. The Wiki page will hopefully help you understand how certain things have been implemented. I did try my best to comment the code in a coherent manner, many comments come from the original project by Mark Frimston - I would highly recommend familiarising yourself with his codebase (https://github.com/Frimkron/mud-pi) for improved understanding of basic design decisions I have built on. In summary following concepts have so far been implemented:
 * Rooms
@@ -41,7 +43,7 @@ DBdatabase = '<database_name>'
 7. You can now connect to the server via Telnet on port 35123 (port nubmer is configurable in `mudserver.py`)
 
 ## What now?
-I'd love to carry on developing this, it has been pretty fun so far. IF anyone feels like they want to take it even further, feel free to get in touch. If you want to test it out in it's current state, let me know! You can easily connect to my current dev instance.
+I'd love to carry on developing this, it has been pretty fun so far. IF anyone feels like they want to take it even further, feel free to get in touch.
 
 ## Get in touch
 Bartek.Radwanski@gmail.com
