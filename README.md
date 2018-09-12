@@ -2,7 +2,7 @@
 A modern MU* engine
 
 ## What is it?
-DUM is a hobby project attempting to develop a working Python codebase for a MUD style game. It is building on brillinat work by Mark Frimston, be sure to check out his Mud-Pi project (https://github.com/Frimkron/mud-pi).
+DUM is a hobby project attempting to develop a feature-rich Python codebase for a MUD style game. It is building on brillinat work by Mark Frimston, be sure to check out his Mud-Pi project (https://github.com/Frimkron/mud-pi).
 
 ## Features
 Check out http://dumengine.wikidot.com/dum-v0-1-feature-summary for a longer description of currently implemented features. The Wiki page will hopefully help you understand how certain things have been implemented. I did try my best to comment the code in a coherent manner, many comments come from the original project by Mark Frimston - I would highly recommend familiarising yourself with his codebase (https://github.com/Frimkron/mud-pi) for improved understanding of basic design decisions I have built on. In summary following concepts have so far been implemented:
