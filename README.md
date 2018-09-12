@@ -10,7 +10,7 @@ Check out http://dumengine.wikidot.com/dum-v0-1-feature-summary for a longer des
 * Player chat
 * NPCs
 * Basic inventory, character sheet and items
-* Environmental factors
+* Environmental actors
 * PvE and PvP combat
 * Database
 * Player authentication
