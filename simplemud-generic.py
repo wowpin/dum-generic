@@ -1,16 +1,10 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-"""A modern MU* engine is a hobby project extending on an amazing 
-work by Mark Frimston - be sure to check out https://github.com/Frimkron/mud-pi
-
-All development on top of Mark's project were completed by Bartek Radwanski - 
-bartek.radwanski@gmail.com
-"""
-
 from cmsg import cmsg
 
 from functions import getFreeKey
+from functions import log
 
 import time
 
@@ -27,7 +21,7 @@ from random import randint
 from copy import deepcopy
 
 # Load rooms
-print("[info] Loading rooms")
+log("Loading rooms", "info")
 rooms = {
     '$rid=0$': {'description': 'You wake up in your private quarter aboard the Mariner spacecraft. Your room is dark, the only source of light being a wall screen displaying current time of day on Earth. You can hear a distant hum of ventilation equipment and a characteristic buzz of FTL engines, currently pushing you through a vast, unknown expand of space.',
                 'exits': {'door': '$rid=1$', 'bathroom': '$rid=4$'},
@@ -54,28 +48,29 @@ rooms = {
 # Load NPCs
 npcs = {}
 
-# Declare NPCs master (template) dictionary
+# Declare NPCs master (template) tuple
 npcsTemplate = {}
 
-# Declare env dictionary containing all environmental actors
+# Declare env tuple
 env = {}
 
-# Declare fights dictionary containing information about ongoing fights
+# Declare fights tuple
 fights = {}
 
-# Declare corpses dictionary
+# Declare corpses tuple
 corpses = {}
 
-# Declare items dictionary
+# Declare items tuple
 itemsDB = {}
 
-# Declare itemsInWorld dictionary
+# Declare itemsInWorld tuple
 itemsInWorld = {}
 
 # Declare number of seconds to elapse between State Saves
 # A State Save takes values held in memory and updates the database
 # at set intervals to achieve player state persistence
 stateSaveInterval = 10
+log("Setting state save interval to " + str(stateSaveInterval) + "s", "info")
 
 # Set last state save to 'now' on server boot
 lastStateSave = int(time.time())
@@ -83,17 +78,17 @@ lastStateSave = int(time.time())
 # Database connection details
 DBhost = 'localhost'
 DBport = 3306
-DBuser = '<database_user>'
-DBpasswd = '<database_password>'
+DBuser = '<user>'
+DBpasswd = '<password>'
 DBdatabase = '<database_name>'
 
-print("[info] Connecting to database")
+log("Connecting to database", "info")
 cnxn = pymysql.connect(host=DBhost, port=DBport, user=DBuser, passwd=DBpasswd, db=DBdatabase)
 cursor = cnxn.cursor()
 cursor.execute("SELECT * FROM tbl_NPC")
 dbResponse = cursor.fetchall()
 
-print("[info] Loading NPCs")
+log("Loading NPCs", "info")
 for npc in dbResponse:
     npcs[npc[0]] = {
     'name': npc[1],
@@ -154,11 +149,11 @@ npcsTemplate = deepcopy(npcs)
 	# for y in npcs[x]:
 		# print (y,':',npcs[x][y])
 
-# Fetch tbl_ENV and populate env{}
+# Fetch tbl_ENV and populate env[]
 cursor.execute("SELECT * FROM tbl_ENV")
 dbResponse = cursor.fetchall()
 
-print("[info] Loading environment actors")
+log("Loading environment actors", "info")
 for en in dbResponse:
 	env[en[0]] = {
 	'name': en[1],
@@ -175,11 +170,11 @@ for en in dbResponse:
 		# for y in env[x]:
 			# print (y,':',env[x][y])
 
-# Fetch tbl_Items and populate itemsDB{}
+# Fetch tbl_Items and populate itemsDB[]
 cursor.execute("SELECT * FROM tbl_Items")
 dbResponse = cursor.fetchall()
 
-print("[info] Loading items")
+log("Loading items", "info")
 for item in dbResponse:
     itemsDB[item[0]] = {
         'name': item[1],
@@ -232,7 +227,7 @@ itemsInWorld[getFreeKey(itemsInWorld)] = { 'id': 200001, 'room': '$rid=1$', 'whe
 		# print(y,':',itemsInWorld[x][y])
 		
 # Close a database connection, all data has been fetched to memory
-print("[info] Closing database connection")
+log("Closing database connection", "info")
 cursor.close()
 cnxn.close()
 
@@ -259,7 +254,7 @@ while True:
     # Check if State Save is due and execute it if required
     now = int(time.time())
     if int(now >= lastStateSave + stateSaveInterval):
-        print("[info] Saving player state")
+        # print("[info] Saving player state")
 		
 		# State Save logic Start
         cnxn = pymysql.connect(host=DBhost, port=DBport, user=DBuser, passwd=DBpasswd, db=DBdatabase)
@@ -577,13 +572,10 @@ while True:
         mud.send_message(id, "<f250><b25> a modern MU* engine       ")
         mud.send_message(id, "<f15><b25>    dumengine.wikidot.com  ")
         mud.send_message(id, " ")
+        mud.send_message(id, "<f250><b25> Development Server 1       ")
+        mud.send_message(id, " ")
         mud.send_message(id, '<f15>What is your username?')
-        mud.send_message(id, " ")
-        mud.send_message(id, " ")
-        mud.send_message(id, " ")
-        mud.send_message(id, " ")
-        mud.send_message(id, '<f134><b42>Hello<r> <u><b><f15>World<r>!')
-        print("[info] Client ID: " + str(id) + " has connected")
+        log("Client ID: " + str(id) + " has connected", "info")
 
     # go through any recently disconnected players
     for id in mud.get_disconnected_players():
@@ -593,7 +585,7 @@ while True:
         if id not in players:
             continue
 		
-        print("[info] Client ID:" + str(id) + " has disconnected (" + str(players[id]['name']) + ")")
+        log("Client ID:" + str(id) + " has disconnected (" + str(players[id]['name']) + ")", "info")
 		
         # go through all the players in the game
         for (pid, pl) in list(players.items()):
@@ -610,7 +602,7 @@ while True:
         if players[id]['authenticated'] is not None:
             cnxn = pymysql.connect(host=DBhost, port=DBport, user=DBuser, passwd=DBpasswd, db=DBdatabase)
             cursor = cnxn.cursor()
-            print("[info] Player disconnected, saving state")
+            log("Player disconnected, saving state", "info")
             cursor.execute("UPDATE tbl_Players SET room = %s WHERE name = %s", [players[id]["room"], players[id]["name"]])
             cnxn.commit()
             cursor.execute("UPDATE tbl_Players SET lvl = %s WHERE name = %s", [players[id]["lvl"], players[id]["name"]])
@@ -711,12 +703,12 @@ while True:
                 cursor.close()
                 cnxn.close()
 
-                print("[info] Client ID: " + str(id) + " has requested existing user (" + command + ")")
+                log("Client ID: " + str(id) + " has requested existing user (" + command + ")", "info")
                 mud.send_message(id, 'Hi <u><f32>' + command + '<r>!')
                 mud.send_message(id, '<f15>What is your password?')
             else:
                 mud.send_message(id, '<f202>User <f32>' + command + '<r> was not found!')
-                print("[info] Client ID: " + str(id) + " has requested non existent user (" + command + ")")
+                log("Client ID: " + str(id) + " has requested non existent user (" + command + ")", "info")
         elif players[id]['name'] is not None \
             and players[id]['authenticated'] is None:
             cnxn = pymysql.connect(host=DBhost, port=DBport, user=DBuser, passwd=DBpasswd, db=DBdatabase)
@@ -767,7 +759,7 @@ while True:
                 players[id]['isAttackable'] = 1
                 players[id]['corpseTTL'] = 60
 				
-                print("[info] Client ID: " + str(id) + " has successfully authenticated user " + players[id]['name'])
+                log("Client ID: " + str(id) + " has successfully authenticated user " + players[id]['name'], "info")
                 
                 # Debug - print data extracted from DB onto console
                 #print('Loaded player ' + players[id]['name'] + 'room: ' \
@@ -803,7 +795,7 @@ while True:
                 # mud.send_message(id, rooms[players[id]['room']]['description'])
             else:
                 mud.send_message(id, '<f202>Password incorrect!')
-                print("[info] Client ID: " + str(id) + " has failed authentication")
+                log("Client ID: " + str(id) + " has failed authentication", "info")
 
         elif command.lower() == 'help':
         # 'help' command
@@ -1082,7 +1074,7 @@ while True:
                 else:
                     # mud.send_message(id, 'You cannot see ' + str(params) + ' anywhere.')
                     itemPickedUp = False
-                    break
+                    # break
 
             if itemPickedUp == True:
                 mud.send_message(id, 'You pick up and place ' + itemsDB[itemID]['article'] + ' ' + itemsDB[itemID]['name'] + ' in your inventory.')
@@ -1091,11 +1083,8 @@ while True:
                 mud.send_message(id, 'You cannot see ' + str(params) + ' anywhere.')
                 itemPickedUp = False
 
-        elif command.lower() == 'testme':
-            mud.send_message(id, cmsg("<b><u><f53><b112>HELLO!<r>"))
-            mud.send_message(id, cmsg("<b><u><f12><b75>HELLO <b53>AGAIN <b84>TEST!"))
-
         else:
         # some other, unrecognised command
             # send back an 'unknown command' message
             mud.send_message(id, "Unknown command '{}'".format(command))
+
