@@ -20,8 +20,9 @@ from random import randint
 # import the deepcopy library
 from copy import deepcopy
 
+log("", "Server Boot")
+
 # Load rooms
-log("Loading rooms", "info")
 rooms = {
     '$rid=0$': {'description': 'You wake up in your private quarter aboard the Mariner spacecraft. Your room is dark, the only source of light being a wall screen displaying current time of day on Earth. You can hear a distant hum of ventilation equipment and a characteristic buzz of FTL engines, currently pushing you through a vast, unknown expand of space.',
                 'exits': {'door': '$rid=1$', 'bathroom': '$rid=4$'},
@@ -44,6 +45,7 @@ rooms = {
                 'name': 'Void'},
     }
 
+log("Rooms loaded: " + str(len(rooms)), "info")
 
 # Load NPCs
 npcs = {}
@@ -70,7 +72,7 @@ itemsInWorld = {}
 # A State Save takes values held in memory and updates the database
 # at set intervals to achieve player state persistence
 stateSaveInterval = 10
-log("Setting state save interval to " + str(stateSaveInterval) + "s", "info")
+log("State Save interval: " + str(stateSaveInterval) + " seconds", "info")
 
 # Set last state save to 'now' on server boot
 lastStateSave = int(time.time())
@@ -80,7 +82,7 @@ DBhost = 'localhost'
 DBport = 3306
 DBuser = '<user>'
 DBpasswd = '<password>'
-DBdatabase = '<database_name>'
+DBdatabase = '<database>'
 
 log("Connecting to database", "info")
 cnxn = pymysql.connect(host=DBhost, port=DBport, user=DBuser, passwd=DBpasswd, db=DBdatabase)
@@ -88,7 +90,6 @@ cursor = cnxn.cursor()
 cursor.execute("SELECT * FROM tbl_NPC")
 dbResponse = cursor.fetchall()
 
-log("Loading NPCs", "info")
 for npc in dbResponse:
     npcs[npc[0]] = {
     'name': npc[1],
@@ -140,6 +141,8 @@ for npc in dbResponse:
     'whenDied': None
     }
 
+log("NPCs loaded: " + str(len(npcs)), "info")
+	
 # Deepcopy npcs fetched from a database into a master template
 npcsTemplate = deepcopy(npcs)
 
@@ -153,7 +156,6 @@ npcsTemplate = deepcopy(npcs)
 cursor.execute("SELECT * FROM tbl_ENV")
 dbResponse = cursor.fetchall()
 
-log("Loading environment actors", "info")
 for en in dbResponse:
 	env[en[0]] = {
 	'name': en[1],
@@ -164,6 +166,7 @@ for en in dbResponse:
         'lastSaid': 0,
 	}
 
+log("Environment Actors loaded: " + str(len(env)), "info")
 	# List ENV dictionary for debigging purposes
 	# for x in env:
 		# print (x)
@@ -174,7 +177,6 @@ for en in dbResponse:
 cursor.execute("SELECT * FROM tbl_Items")
 dbResponse = cursor.fetchall()
 
-log("Loading items", "info")
 for item in dbResponse:
     itemsDB[item[0]] = {
         'name': item[1],
@@ -209,6 +211,7 @@ for item in dbResponse:
         'article': item[30],
     }
 
+log("Items loaded: " + str(len(itemsDB)), "info")
 # List items DB for debugging purposes
 # for x in itemsDB:
 	# print (x)
