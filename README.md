@@ -39,7 +39,17 @@ DBuser = '<database_user>'
 DBpasswd = '<database_password>'
 DBdatabase = '<database_name>'
 ```
-6. Run `simplemud-generic.py` using `python3`
+6. Run `simplemud-generic.py` using `python3`. You will be greeted by some log entries:
+```
+13/09/2018 11:51:39 [Server Boot] 
+13/09/2018 11:51:39 [info] Rooms loaded: 6
+13/09/2018 11:51:39 [info] State Save interval: 10 seconds
+13/09/2018 11:51:39 [info] Connecting to database
+13/09/2018 11:51:39 [info] NPCs loaded: 3
+13/09/2018 11:51:39 [info] Environment Actors loaded: 2
+13/09/2018 11:51:39 [info] Items loaded: 2
+13/09/2018 11:51:39 [info] Closing database connection
+```
 7. You can now connect to the server via Telnet on port 35123 (port nubmer is configurable in `mudserver.py`)
 
 ## What now?
