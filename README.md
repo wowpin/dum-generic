@@ -24,13 +24,37 @@ Any environment capable of running Python3 + MySQL will do. My own development e
 - Python3 3.6.5-3ubuntu1
 - Mysql-server 5.7.23-0ubuntu0.18.04.1
 
-Simplified steps to get things up and running are as follows. Somewhere down my TODO list is asome sort of an automated batch, which would install all the prerequisites, set up the database etc. I'm always happy to help if you need a hand or get stuck at any point.
+Follow steps below to get things up and running. Somewhere down my TODO list is asome sort of an automated batch, which would install all the prerequisites, set up the database etc. I'm always happy to help if you need a hand or get stuck at any point.
 
-1. Install python3
-2. Install and configure MySQL instance. 
-3. Use `database-dump.sql` to import the example database into your instance
-4. Create a dedicated mysql user and grant him permissions to access dum database remotely.
-5. Configure database connection details in the following section in `simplemud-generic.py`:
+1. Spin up an Ubuntu instance
+2. `sudo apt-get update`
+3. `sudo apt-get upgrade`
+4. Install MySQL environment:
+	https://www.digitalocean.com/community/tutorials/how-to-install-mysql-on-ubuntu-16-04
+5. Install Python3 environment (Step 1 only):
+	https://www.digitalocean.com/community/tutorials/how-to-install-python-3-and-set-up-a-local-programming-environment-on-ubuntu-16-04
+6. Install PyMysql:
+	`sudo pip3 install pymysql`
+7. Create 'dumdb' user in MySQL and grant all privileges:
+  ```
+	CREATE USER '<database_user>'@'localhost' IDENTIFIED BY '<database_password>';
+	GRANT ALL PRIVILEGES ON * . * TO 'dumdb'@'localhost';
+	FLUSH PRIVILEGES;
+  ```
+8. Create dum database and select it:
+  ```
+	CREATE DATABASE <database_name>;
+	USE <database_name>;
+  ```
+9. Import the database structure by pasting database-dump.sql into mysql prompt.
+10. Place the following files in a directory of your choice:
+  ```
+	simplemud-generic.py
+	mudserver.py
+	functions.py
+	cmsg.py
+  ```
+11. Configure database connection details in the following section in `simplemud-generic.py`:
 ```
 # Database connection details
 DBhost = 'localhost'
@@ -39,7 +63,7 @@ DBuser = '<database_user>'
 DBpasswd = '<database_password>'
 DBdatabase = '<database_name>'
 ```
-6. Run `simplemud-generic.py` using `python3`. You will be greeted by some log entries:
+12. Run `simplemud-generic.py` using `python3`. You will be greeted by some log entries:
 ```
 13/09/2018 11:51:39 [Server Boot] 
 13/09/2018 11:51:39 [info] Rooms loaded: 6
@@ -50,7 +74,7 @@ DBdatabase = '<database_name>'
 13/09/2018 11:51:39 [info] Items loaded: 2
 13/09/2018 11:51:39 [info] Closing database connection
 ```
-7. You can now connect to the server via Telnet on port 35123 (port nubmer is configurable in `mudserver.py`)
+13. You can now connect to the server via Telnet on port 35123 (port nubmer is configurable in `mudserver.py`)
 
 ## What now?
 I'd love to carry on developing this, it has been pretty fun so far. IF anyone feels like they want to take it even further, feel free to get in touch.
