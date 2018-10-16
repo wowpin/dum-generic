@@ -24,7 +24,7 @@ log("", "Server Boot")
 
 # Load rooms
 rooms = {
-    '$rid=0$': {'description': 'You wake up in your private quarter aboard the Mariner spacecraft. Your room is dark, the only source of light being a wall screen displaying current time of day on Earth. You can hear a distant hum of ventilation equipment and a characteristic buzz of FTL engines, currently pushing you through a vast, unknown expand of space.',
+    '$rid=0$': {'description': 'You are in your private quarter aboard the Mariner spacecraft. Your room is dark, the only source of light being a wall screen displaying current time of day on Earth. You can hear a distant hum of ventilation equipment and a characteristic buzz of FTL engines, currently pushing you through a vast, unknown expand of space.',
                 'exits': {'door': '$rid=1$', 'bathroom': '$rid=4$'},
                 'name': 'Private Quarter'},
     '$rid=1$': {'description': 'You are standing in a wide corridor, which circles around the second level of the craft. Private quarters of other crew members are located on this level. A broken ceiling light flickers every few seconds. The air pumped through the vents is chilly and refreshing.',
