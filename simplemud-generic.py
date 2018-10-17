@@ -25,7 +25,7 @@ import configparser
 
 log("", "Server Boot")
 
-log("info", "Loading configuration file")
+log("Loading configuration file", "info")
 
 # load the configuration file
 Config = configparser.ConfigParser()
