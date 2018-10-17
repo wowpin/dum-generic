@@ -23,14 +23,16 @@ from copy import deepcopy
 # import config parser
 import configparser
 
+log("", "Server Boot")
+
+log("info", "Loading configuration file")
+
 # load the configuration file
 Config = configparser.ConfigParser()
 Config.read('config.ini')
 
 # example of config file usage
 # print(str(Config.get('Database', 'Hostname')))
-
-log("", "Server Boot")
 
 # Load rooms
 rooms = {
