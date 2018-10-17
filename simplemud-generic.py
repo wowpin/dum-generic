@@ -20,6 +20,16 @@ from random import randint
 # import the deepcopy library
 from copy import deepcopy
 
+# import config parser
+import configparser
+
+# load the configuration file
+Config = configparser.ConfigParser()
+Config.read('config.ini')
+
+# example of config file usage
+# print(str(Config.get('Database', 'Hostname')))
+
 log("", "Server Boot")
 
 # Load rooms
