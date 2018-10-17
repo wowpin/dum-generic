@@ -1,0 +1,3 @@
+Changes since v0.1 (http://dumengine.wikidot.com/dum-v0-1-feature-summary):
+
+  * Implemented configuration file parsing (config.ini)
