@@ -83,18 +83,18 @@ itemsInWorld = {}
 # Declare number of seconds to elapse between State Saves
 # A State Save takes values held in memory and updates the database
 # at set intervals to achieve player state persistence
-stateSaveInterval = 10
+stateSaveInterval = int(Config.get('World', 'StateSaveInterval'))
 log("State Save interval: " + str(stateSaveInterval) + " seconds", "info")
 
 # Set last state save to 'now' on server boot
 lastStateSave = int(time.time())
 
 # Database connection details
-DBhost = 'localhost'
-DBport = 3306
-DBuser = '<user>'
-DBpasswd = '<password>'
-DBdatabase = '<database>'
+DBhost = Config.get('Database', 'Hostname')
+DBport = int(Config.get('Database', 'Port'))
+DBuser = Config.get('Database', 'User')
+DBpasswd = Config.get('Database', 'Pass')
+DBdatabase = Config.get('Database', 'DB')
 
 log("Connecting to database", "info")
 cnxn = pymysql.connect(host=DBhost, port=DBport, user=DBuser, passwd=DBpasswd, db=DBdatabase)
