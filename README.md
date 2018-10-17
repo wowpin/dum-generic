@@ -54,14 +54,14 @@ Follow steps below to get things up and running. Somewhere down my TODO list is 
 	functions.py
 	cmsg.py
   ```
-11. Configure database connection details in the following section in `simplemud-generic.py`:
+11. Configure database connection details in the Database section in `config.ini`:
 ```
-# Database connection details
-DBhost = 'localhost'
-DBport = 3306
-DBuser = '<database_user>'
-DBpasswd = '<database_password>'
-DBdatabase = '<database_name>'
+[Database]
+Hostname: localhost
+Port: 3306
+User: <user>
+Pass: <password
+DB: <db name>
 ```
 12. Run `simplemud-generic.py` using `python3`. You will be greeted by some log entries:
 ```
