@@ -1,3 +1,11 @@
+# dum-generic has been re-designed, improved and moved to https://github.com/wowpin/dumserver - new repository, actively developed and properly tracked.
+
+
+
+
+
+
+
 # dum-generic
 A modern MU* engine
 
